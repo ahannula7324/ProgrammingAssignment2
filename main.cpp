@@ -93,12 +93,12 @@ int main() {
     cout << stack.empty() << endl;
 
     stack.push(1);
-    cout << stack.empty() << endl;
-
+    cout << stack.size() << endl;
+    stack.push(2);
+    stack.push(3);
+    cout << stack.size() << endl;
     stack.pop();
-    cout << stack.empty() << endl;
-
-    stack.pop();
+    cout << stack.size() << endl;
 
 
     return 0;

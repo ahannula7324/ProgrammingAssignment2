@@ -27,7 +27,10 @@ public:
     }
 
     T top() const {
-
+        if (data.empty()) {
+            throw std::out_of_range("Stack is empty");
+        }
+        return data.back();
     }
 
     bool empty() const {
@@ -36,7 +39,7 @@ public:
     }
 
     int size() const {
-
+        return data.size();
     }
 };
 
