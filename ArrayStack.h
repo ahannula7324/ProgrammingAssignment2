@@ -4,27 +4,40 @@
 
 #ifndef PROGRAMMINGASSIGNMENT2_AARAYSTACK_H
 #define PROGRAMMINGASSIGNMENT2_AARAYSTACK_H
-#endif //PROGRAMMINGASSIGNMENT2_AARAYSTACK_H
 
 #include <vector>
 #include <stdexcept>
 
-void push(const T& value) {
+template <typename T>
+class ArrayStack {
+private:
+    std::vector<T> data;
 
-}
+public:
 
-void pop() {
+    void push(const T& value) {
+        data.push_back(value);
+    }
 
-}
+    void pop() {
+        if (data.empty()) {
+            throw std::out_of_range("Stack is empty");
+        }
+        data.pop_back();
+    }
 
-T pop() const {
+    T top() const {
 
-}
+    }
 
-bool empty() const {
+    bool empty() const {
+        return data.empty();
 
-}
+    }
 
-int size() const {
+    int size() const {
 
-}
+    }
+};
+
+#endif
