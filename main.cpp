@@ -18,7 +18,30 @@ struct Token {
 
 vector<Token> tokenize(const string& line) {
     vector<Token> tokens;
-    // TODO
+
+    for (int i = 0; i < line.length(); i++) {
+        char c = line[i];
+
+        if (isspace(c)) {
+            continue;
+        }
+        if (isdigit(c)) {
+            string num = "";
+
+            while (i < line.length() && isdigit(line[i])) {
+                num += line[i];
+                i++;
+            }
+            i--;
+            tokens.push_back(Token{num});
+        }
+        else {
+            string other = "";
+            other += c;
+            tokens.push_back(Token{other});
+        }
+    }
+
     return tokens;
 }
 
@@ -64,11 +87,16 @@ double evalPostfix(const vector<Token>& tokens) {
 // Main
 
 int main() {
-    /*
+
     string line;
+    cout << "Enter expression: ";
     getline(cin, line);
 
     vector<Token> tokens = tokenize(line);
+
+    for (int i = 0; i < tokens.size(); i++) {
+        cout << tokens[i].value << endl;
+    }
 
     if (isValidPostfix(tokens)) {
         cout << "FORMAT: POSTFIX\n";
@@ -88,18 +116,6 @@ int main() {
         cout << "FORMAT: NEITHER\n";
         cout << "ERROR: invalid expression\n";
     }
-    */
-    ArrayStack<int> stack;
-    cout << stack.empty() << endl;
-
-    stack.push(1);
-    cout << stack.size() << endl;
-    stack.push(2);
-    stack.push(3);
-    cout << stack.size() << endl;
-    stack.pop();
-    cout << stack.size() << endl;
-
 
     return 0;
 }

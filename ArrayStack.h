@@ -1,7 +1,3 @@
-//
-// Created by Drew Hannula on 3/19/26.
-//
-
 #ifndef PROGRAMMINGASSIGNMENT2_AARAYSTACK_H
 #define PROGRAMMINGASSIGNMENT2_AARAYSTACK_H
 
