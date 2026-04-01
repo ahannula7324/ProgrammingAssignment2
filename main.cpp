@@ -52,20 +52,88 @@ bool isOperator(const string& s) {
 }
 
 int precedence(const string& op) {
-    // TODO
+    if (op == "*" || op == "/") {
+        return 2;
+    }
+    else if (op == "+" || op == "-") {
+        return 1;
+    }
     return 0;
 }
 
 // Detection
 
 bool isValidPostfix(const vector<Token>& tokens) {
-    // TODO
-    return false;
+    int count = 0;
+
+    for (int i = 0; i < tokens.size(); i++) {
+        string s = tokens[i].value;
+
+        if (isdigit(s[0])) {
+            count += 1;
+        }
+        else if (isOperator(s)) {
+            if (count < 2) {
+                return false;
+            }
+            count--;
+        }
+        else {
+            return false;
+        }
+    }
+    if (count == 1) {
+        return true;
+    }
+    else {
+        return false;
+    }
+
 }
 
 bool isValidInfix(const vector<Token>& tokens) {
-    // TODO
-    return false;
+    int numParentheses = 0;
+    bool isNumNext = true;
+
+    for (int i = 0; i < tokens.size(); i++) {
+        string s = tokens[i].value;
+
+        if (s == "(") {
+            numParentheses += 1;
+        }
+        else if (s == ")") {
+            numParentheses -= 1;
+            if (numParentheses < 0) {
+                return false;
+            }
+            else {
+                isNumNext = false;
+            }
+        }
+        else if (isdigit(s[0])) {
+            if (!isNumNext) {
+                return false;
+            }
+            else {
+                isNumNext = false;
+            }
+        }
+        else if (isOperator(s)) {
+            if (isNumNext) {
+                return false;
+            }
+            else {
+                isNumNext = true;
+            }
+        }
+    }
+
+    if (numParentheses == 0 && !isNumNext) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 // Conversion
@@ -94,9 +162,15 @@ int main() {
 
     vector<Token> tokens = tokenize(line);
 
+    /*
     for (int i = 0; i < tokens.size(); i++) {
-        cout << tokens[i].value << endl;
-    }
+        Token token = tokens[i];
+
+        if (isOperator(token.value)) {
+            int p = precedence(token.value);
+            cout << "PRECEDENCE: " << p << endl;
+        }
+    }*/
 
     if (isValidPostfix(tokens)) {
         cout << "FORMAT: POSTFIX\n";
