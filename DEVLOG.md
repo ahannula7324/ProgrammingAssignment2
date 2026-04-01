@@ -12,3 +12,6 @@ Finished tokenize() in main.ppp, however in doing so ran into an error. Once I t
 
 ### March 31, 2026
 Completed precedence(), isValidPostfix(), and isValidInfix() and ran many test cases to make sure they all work properly. With some slight syntax errors and mini fixes, it all worked as intended.
+
+### March 31, 2026
+Completed infixToPostfix() as well as evalPostfix(), however ran into some errors while testing. The first thing I noticed is that when I put in "3*2+6" I got 11 instead of 12, as it added it all up. I fixed this, as in my infixToPostfix() function, I was pushing the current token of "s" instead of the top of the operators stack. This caused a mix-up and caused it to use the other operator twice. The second problem I ran into while testing is whenever I would divide something by 0, the answer became "inf" instead of "0". This is because I forgot to add a check in the evalPostfix() function for this. The final problem was involving parentheses, inn which each time I used them, it tried to use one as an operator, like "+, -, *, /", which is not possible. To fix this, I had to change a few things in infixToPostfix(). I had to add a check in the while loop for isOperator(s) to make sure it doesn't pop past the parentheses. I then had to change the while loop for the parentheses to instead of using "== "("" , I had to do "!= "("" .

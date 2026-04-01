@@ -140,7 +140,40 @@ bool isValidInfix(const vector<Token>& tokens) {
 
 vector<Token> infixToPostfix(const vector<Token>& tokens) {
     vector<Token> output;
-    // TODO
+    ArrayStack<string> operators;
+
+    for (int i = 0; i < tokens.size(); i++) {
+        string s = tokens[i].value;
+
+        if (isdigit(s[0])) {
+            output.push_back(Token{s});
+        }
+        else if (isOperator(s)) {
+            while (!operators.empty() && precedence(operators.top()) >= precedence(s) && operators.top() != "(") {
+                output.push_back({operators.top()});
+                operators.pop();
+            }
+            operators.push(s);
+        }
+        else if (s == "(") {
+            operators.push(s);
+        }
+        else if (s == ")") {
+            while (!operators.empty() && operators.top() != "(") {
+                output.push_back({operators.top()});
+                operators.pop();
+            }
+            if (!operators.empty()) {
+                operators.pop();
+            }
+        }
+    }
+    while (!operators.empty()) {
+        output.push_back({operators.top()});
+        operators.pop();
+    }
+
+
     return output;
 }
 
@@ -148,8 +181,38 @@ vector<Token> infixToPostfix(const vector<Token>& tokens) {
 
 double evalPostfix(const vector<Token>& tokens) {
     ArrayStack<double> stack;
-    // TODO
-    return 0.0;
+
+    for (int i = 0; i < tokens.size(); i++) {
+        string s = tokens[i].value;
+
+        if (isdigit(s[0])) {
+            stack.push(stod(s));
+        }
+        else if (isOperator(s)) {
+            double rightValue = stack.top();
+            stack.pop();
+            double leftValue = stack.top();
+            stack.pop();
+
+            if (s == "+") {
+                stack.push(leftValue + rightValue);
+            }
+            else if (s == "-") {
+                stack.push(leftValue - rightValue);
+            }
+            else if (s == "*") {
+                stack.push(leftValue * rightValue);
+            }
+            else if (s == "/") {
+                if (rightValue == 0) {
+                    return 0;
+                }
+                stack.push(leftValue / rightValue);
+            }
+        }
+    }
+
+    return stack.top();
 }
 
 // Main
@@ -161,16 +224,6 @@ int main() {
     getline(cin, line);
 
     vector<Token> tokens = tokenize(line);
-
-    /*
-    for (int i = 0; i < tokens.size(); i++) {
-        Token token = tokens[i];
-
-        if (isOperator(token.value)) {
-            int p = precedence(token.value);
-            cout << "PRECEDENCE: " << p << endl;
-        }
-    }*/
 
     if (isValidPostfix(tokens)) {
         cout << "FORMAT: POSTFIX\n";
